@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athul KS - Embedded Firmware Engineer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
+            --font-main: 'Poppins', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .theme-dark {
+            --primary-color: #1a1a2e;
+            --secondary-color: #0f3460;
+            --accent-color: #e94560;
+            --text-color: #f0f0f0;
+            --light-color: #16213e;
+            --dark-color: #0d0d1a;
+            --card-bg: #1e2a47;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-blue {
+            --primary-color: #1a237e;
+            --secondary-color: #283593;
+            --accent-color: #3949ab;
+            --text-color: #e8eaf6;
+            --light-color: #e8eaf6;
+            --dark-color: #101652;
+            --card-bg: #242b5f;
+            --shadow: 0 10px 30px rgba(26, 35, 126, 0.2);
+        }
+
+        .theme-green {
+            --primary-color: #1b5e20;
+            --secondary-color: #2e7d32;
+            --accent-color: #43a047;
+            --text-color: #e8f5e9;
+            --light-color: #e8f5e9;
+            --dark-color: #0d1f0e;
+            --card-bg: #2e4b2f;
+            --shadow: 0 10px 30px rgba(27, 94, 32, 0.2);
+        }
+
+        .theme-purple {
+            --primary-color: #4a148c;
+            --secondary-color: #6a1b9a;
+            --accent-color: #9c27b0;
+            --text-color: #f3e5f5;
+            --light-color: #f3e5f5;
+            --dark-color: #2d0b4d;
+            --card-bg: #512da8;
+            --shadow: 0 10px 30px rgba(74, 20, 140, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-color);
+            transition: var(--transition);
+            padding-bottom: 80px; /* Space for admin button */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: var(--font-mono);
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--accent-color);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            font-weight: 300;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            font-family: var(--font-mono);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 0;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+            font-weight: 700;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-category h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .skill-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Experience Section */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: var(--card-bg);
+            position: relative;
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-3px);
+        }
+
+        .timeline-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timeline-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .project-info p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .project-link:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        /* Admin Panel - Always visible at bottom */
+        .admin-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .admin-toggle {
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+
+        .admin-toggle:hover {
+            transform: rotate(45deg);
+            animation: none;
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .admin-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            flex-wrap: wrap;
+        }
+
+        .admin-tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .admin-tab.active {
+            border-bottom: 3px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            background-color: var(--light-color);
+            color: var(--text-color);
+        }
+
+        .theme-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+
+        .theme-option {
+            height: 60px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .theme-option:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-default {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        }
+
+        .theme-dark-option {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+        }
+
+        .theme-blue-option {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        }
+
+        .theme-green-option {
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+        }
+
+        .theme-purple-option {
+            background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 100%);
+        }
+
+        .project-link-config {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .project-link-config h4 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1002;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: var(--shadow);
+        }
+
+        .close-admin {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary-color);
+                padding: 1rem 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 0.5rem 1.5rem;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .admin-tabs {
+                flex-direction: column;
+            }
+            
+            .admin-panel {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .admin-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Athul <span>KS</span></div>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <img src="profile.jpg" alt="Athul KS" class="profile-img" id="profileImage">
+                <h1>Athul KS</h1>
+                <p>Embedded Firmware Engineer | IoT Specialist | Team Owner</p>
+                <a href="#contact" class="btn">Get In Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="section-content">
+                <p id="aboutText">Embedded Firmware Engineer with 2 years of experience in IoT devices, RTOS, and multi-protocol embedded systems. Skilled in FreeRTOS, Zephyr, STM32, ESP32, Nuvoton, and nRF platforms, with expertise in FOTA, BLE, Zigbee, and real-time debugging. Proven ability to optimize CPU/memory usage, deliver production-grade IoT solutions, and lead small teams in client-facing projects with strong technical problem-solving skills.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2>Core Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Embedded & Firmware Development</h3>
+                    <ul class="skill-list" id="embeddedSkills">
+                        <li>C, C++, Embedded C, Python, Html</li>
+                        <li>CMake (Zephyr), DeviceTree (Zephyr), LVGL</li>
+                        <li>FreeRTOS, ZephyrRTOS, FOTA, Bootloaders</li>
+                        <li>Bare-metal (ARM Cortex-M, 8051)</li>
+                        <li>Custom preference storage & filesystem handling in MCUs</li>
+                        <li>Exposure: OpenCPU (ARM Cortex-A), Linux basics</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Protocols & Communication</h3>
+                    <ul class="skill-list" id="protocolSkills">
+                        <li>UART, I2C, SPI, ADC, DAC, PWM</li>
+                        <li>RS485 & One-Wire signals (decoding Coleman 9, Coleman 8, Furrion, Dometic Single & Multi zone HVAC)</li>
+                        <li>RS232, Modbus, BLE (Central/Peripheral)</li>
+                        <li>Zigbee 3.0 (Coordinator), Ethernet, GPS NMEA</li>
+                        <li>AT Commands, PPOS</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Debugging & Development Tools</h3>
+                    <ul class="skill-list" id="debuggingSkills">
+                        <li>ST-Link, J-Link, CoolWatcher, Nulink</li>
+                        <li>OpenOCD, PyOCD, STM32CubeIDE debugger</li>
+                        <li>Keil debugger, NRF Connect, VS Code</li>
+                        <li>Saleae Logic, Hercules, Wireshark</li>
+                        <li>RealTerm, TeraTerm, DSO, CRO</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>IoT & Networking Skills</h3>
+                    <ul class="skill-list" id="iotSkills">
+                        <li>MQTT, SNMP, WebSocket, TCP/IP</li>
+                        <li>FTP/HTTP/UDP communication</li>
+                        <li>CI/CD version management (Git)</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>MCUs & Platforms</h3>
+                    <ul class="skill-list" id="mcuSkills">
+                        <li>STM32 (WB, M0, M4, M3)</li>
+                        <li>ESP32/ESP32-S3/ESP8266</li>
+                        <li>Nuvoton M031/M451/M453/NE7003, NUC209</li>
+                        <li>nrf52840, Quectel EC200 modem</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Soft Skills</h3>
+                    <ul class="skill-list" id="softSkills">
+                        <li>Leadership, Resource Allocation</li>
+                        <li>Client Communication, Time Management</li>
+                        <li>Fast Learning, Adaptability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2>Work Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Riod Logic Pvt Ltd</h3>
+                        <p><strong>Embedded Firmware Engineer & Team Owner (Micro team)</strong></p>
+                        <p id="experienceText">
+                            ○ Spearheaded embedded firmware projects from requirements to production deployment.<br>
+                            ○ Led a 4-5 member embedded team, overseeing resource allocation, mentoring juniors, and handling international client communication.<br>
+                            ○ Delivered production-grade FOTA (6 firmware bins managed in parallel via FTP).<br>
+                            ○ Optimized FreeRTOS task scheduling and PSRAM allocation strategy, reducing CPU load and memory footprint by 20%.<br>
+                            ○ Integrated Zigbee Coordinator + BLE Central on STM32WB (concurrent mode).<br>
+                            ○ Hands-on with HVAC protocol decoding via RS485 and One-Wire (Coleman, Furrion, Dometic).<br>
+                            ○ Used structured CI/CD pipelines for version management and release control.<br>
+                            ○ Provided technical solutions and chip selection strategies, balancing firmware-hardware compatibility and cost optimization.<br>
+                            ○ Designed custom partitioning schemes in MCUs (STM32, Nuvoton, ESP32) for preference storage, filesystem support, and OTA compatibility.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2>Projects</h2>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Project cards will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h3>Phone</h3>
+                            <p id="phoneNumber">+91 8089054692</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3>Email</h3>
+                            <p id="emailAddress">kathul896@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3>Location</h3>
+                            <p id="locationText">Ernakulam, Kerala, India</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" id="linkedinLink"><i class="fab fa-linkedin"></i></a>
+                <a href="#" id="githubLink"><i class="fab fa-github"></i></a>
+                <a href="#" id="instagramLink"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p>&copy; 2023 Athul KS. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Admin Panel - Always visible at bottom -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-toggle" id="adminToggle">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-content">
+            <span class="close-admin" id="closeAdmin">&times;</span>
+            <div class="admin-tabs">
+                <div class="admin-tab active" data-tab="content">Content</div>
+                <div class="admin-tab" data-tab="appearance">Appearance</div>
+                <div class="admin-tab" data-tab="social">Social Links</div>
+                <div class="admin-tab" data-tab="projects">Project Links</div>
+            </div>
+
+            <div class="tab-content active" id="contentTab">
+                <h3>Edit Content</h3>
+                <div class="form-group">
+                    <label for="aboutInput">About Text</label>
+                    <textarea class="form-control" id="aboutInput" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="profileImageInput">Profile Image URL</label>
+                    <input type="text" class="form-control" id="profileImageInput">
+                </div>
+                <div class="form-group">
+                    <label for="phoneInput">Phone Number</label>
+                    <input type="text" class="form-control" id="phoneInput">
+                </div>
+                <div class="form-group">
+                    <label for="emailInput">Email Address</label>
+                    <input type="email" class="form-control" id="emailInput">
+                </div>
+                <div class="form-group">
+                    <label for="locationInput">Location</label>
+                    <input type="text" class="form-control" id="locationInput">
+                </div>
+                <button class="btn" id="saveContent">Save Changes</button>
+            </div>
+
+            <div class="tab-content" id="appearanceTab">
+                <h3>Change Theme</h3>
+                <div class="theme-options">
+                    <div class="theme-option theme-default" data-theme="default">Default</div>
+                    <div class="theme-option theme-dark-option" data-theme="dark">Dark</div>
+                    <div class="theme-option theme-blue-option" data-theme="blue">Blue</div>
+                    <div class="theme-option theme-green-option" data-theme="green">Green</div>
+                    <div class="theme-option theme-purple-option" data-theme="purple">Purple</div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="socialTab">
+                <h3>Social Media Links</h3>
+                <div class="form-group">
+                    <label for="linkedinInput">LinkedIn URL</label>
+                    <input type="url" class="form-control" id="linkedinInput" placeholder="https://linkedin.com/in/yourprofile">
+                </div>
+                <div class="form-group">
+                    <label for="githubInput">GitHub URL</label>
+                    <input type="url" class="form-control" id="githubInput" placeholder="https://github.com/yourusername">
+                </div>
+                <div class="form-group">
+                    <label for="instagramInput">Instagram URL</label>
+                    <input type="url" class="form-control" id="instagramInput" placeholder="https://instagram.com/yourusername">
+                </div>
+                <button class="btn" id="saveSocial">Save Social Links</button>
+            </div>
+
+            <div class="tab-content" id="projectsTab">
+                <h3>Project Links Configuration</h3>
+                <p>Only add links for projects that are publicly available. Leave fields blank for projects without links.</p>
+                
+                <div id="projectLinksConfig">
+                    <!-- Project link configuration will be generated by JavaScript -->
+                </div>
+                
+                <button class="btn" id="saveProjects">Save Project Links</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <h2>Admin Login</h2>
+            <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <input type="password" class="form-control" id="adminPassword" placeholder="Enter admin password">
+            </div>
+            <button class="btn" id="loginBtn">Login</button>
+            <p id="loginError" style="color: var(--accent-color); margin-top: 1rem; display: none;">Incorrect password. Please try again.</p>
+        </div>
+    </div>
+
+    <script>
+        // Project data
+        const projects = [
+            {
+                id: 'waltech-v3',
+                title: 'Waltech v3 UST Thermostat',
+                description: 'Next-generation universal thermostat (13 in 1) integrating ESP32-S3 with STM32WB and BG95 modem.',
+                links: {
+                    live: '',
+                    github: ''
+                }
+            },
+            {
+                id: 'powerone-snmp',
+                title: 'PowerOne SNMP Card',
+                description: 'SNMP + Modbus card for monitoring & remote control of industrialized UPS.',
+                links: {
+                    live: '',
+                    github: ''
+                }
+            },
+            {
+                id: 'waltech-vision',
+                title: 'Waltech Vision 2 Thermostat',
+                description: 'Multi-protocol HVAC thermostat (Android) with ARM MCUs.',
+                links: {
+                    live: '',
+                    github: ''
+                }
+            },
+            {
+                id: 'buoy-monitoring',
+                title: 'Buoy Monitoring System',
+                description: 'Real-time buoy monitoring with disaster alerts.',
+                links: {
+                    live: '',
+                    github: ''
+                }
+            },
+            {
+                id: 'irrigation',
+                title: 'Irrigation in Agriculture',
+                description: 'Remote motor control via GSM.',
+                links: {
+                    live: '',
+                    github: ''
+                }
+            },
+            {
+                id: 'garments-qr',
+                title: 'Garments QR Module',
+                description: 'IoT-based employee & garment tracking system with 10000 log capacity.',
+                links: {
+                    live: '',
+                    github: ''
+                }
+            }
+        ];
+
+        // Admin password (in a real application, this would be securely stored and verified)
+        const ADMIN_PASSWORD = "admin123"; // Change this to your preferred password
+
+        // DOM Elements
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const adminPanel = document.getElementById('adminPanel');
+        const adminToggle = document.getElementById('adminToggle');
+        const adminModal = document.getElementById('adminModal');
+        const closeAdmin = document.getElementById('closeAdmin');
+        const adminTabs = document.querySelectorAll('.admin-tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const saveContentBtn = document.getElementById('saveContent');
+        const saveSocialBtn = document.getElementById('saveSocial');
+        const saveProjectsBtn = document.getElementById('saveProjects');
+        const projectsGrid = document.getElementById('projectsGrid');
+        const projectLinksConfig = document.getElementById('projectLinksConfig');
+        const loginModal = document.getElementById('loginModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const adminPassword = document.getElementById('adminPassword');
+        const loginError = document.getElementById('loginError');
+
+        // Check if user is logged in
+        let isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+
+        // Initialize the page
+        function init() {
+            renderProjects();
+            setupProjectLinksConfig();
+            loadSavedData();
+            setupEventListeners();
+        }
+
+        // Render projects based on data
+        function renderProjects() {
+            projectsGrid.innerHTML = '';
+            
+            projects.forEach(project => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card';
+                
+                let linksHTML = '';
+                
+                // Only add links if they are configured
+                if (project.links.live || project.links.github) {
+                    linksHTML = '<div class="project-links">';
+                    
+                    if (project.links.live) {
+                        linksHTML += `<a href="${project.links.live}" class="project-link" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>`;
+                    }
+                    
+                    if (project.links.github) {
+                        linksHTML += `<a href="${project.links.github}" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>`;
+                    }
+                    
+                    linksHTML += '</div>';
+                }
+                
+                projectCard.innerHTML = `
+                    <div class="project-info">
+                        <h3>${project.title}</h3>
+                        <p>${project.description}</p>
+                        ${linksHTML}
+                    </div>
+                `;
+                
+                projectsGrid.appendChild(projectCard);
+            });
+        }
+
+        // Setup project links configuration form
+        function setupProjectLinksConfig() {
+            projectLinksConfig.innerHTML = '';
+            
+            projects.forEach(project => {
+                const projectConfig = document.createElement('div');
+                projectConfig.className = 'project-link-config';
+                
+                projectConfig.innerHTML = `
+                    <h4>${project.title}</h4>
+                    <div class="form-group">
+                        <label for="${project.id}-live">Live Demo URL</label>
+                        <input type="url" class="form-control" id="${project.id}-live" 
+                               placeholder="https://live-demo.com" value="${project.links.live}">
+                    </div>
+                    <div class="form-group">
+                        <label for="${project.id}-github">GitHub Repository URL</label>
+                        <input type="url" class="form-control" id="${project.id}-github" 
+                               placeholder="https://github.com/username/repo" value="${project.links.github}">
+                    </div>
+                `;
+                
+                projectLinksConfig.appendChild(projectConfig);
+            });
+        }
+
+        // Load saved data from localStorage
+        function loadSavedData() {
+            // Load theme
+            const savedTheme = localStorage.getItem('portfolioTheme');
+            if (savedTheme && savedTheme !== 'default') {
+                document.body.classList.add('theme-' + savedTheme);
+            }
+            
+            // Load content
+            const savedContent = localStorage.getItem('portfolioContent');
+            if (savedContent) {
+                const contentData = JSON.parse(savedContent);
+                document.getElementById('aboutText').textContent = contentData.aboutText;
+                document.getElementById('profileImage').src = contentData.profileImageUrl;
+                document.getElementById('phoneNumber').textContent = contentData.phoneNumber;
+                document.getElementById('emailAddress').textContent = contentData.emailAddress;
+                document.getElementById('locationText').textContent = contentData.locationText;
+                
+                // Pre-fill the form
+                document.getElementById('aboutInput').value = contentData.aboutText;
+                document.getElementById('profileImageInput').value = contentData.profileImageUrl;
+                document.getElementById('phoneInput').value = contentData.phoneNumber;
+                document.getElementById('emailInput').value = contentData.emailAddress;
+                document.getElementById('locationInput').value = contentData.locationText;
+            }
+            
+            // Load social links
+            const savedSocial = localStorage.getItem('portfolioSocial');
+            if (savedSocial) {
+                const socialData = JSON.parse(savedSocial);
+                document.getElementById('linkedinLink').href = socialData.linkedin;
+                document.getElementById('githubLink').href = socialData.github;
+                document.getElementById('instagramLink').href = socialData.instagram;
+
+                document.getElementById('linkedinInput').value = socialData.linkedin;
+                document.getElementById('githubInput').value = socialData.github;
+                document.getElementById('instagramInput').value = socialData.instagram;
+            }
+            
+            // Load project links
+            const savedProjects = localStorage.getItem('portfolioProjects');
+            if (savedProjects) {
+                const projectsData = JSON.parse(savedProjects);
+                
+                // Update the projects array with saved data
+                projects.forEach(project => {
+                    if (projectsData[project.id]) {
+                        project.links = projectsData[project.id];
+                    }
+                });
+                
+                // Re-render projects with updated links
+                renderProjects();
+                
+                // Pre-fill the project links form
+                projects.forEach(project => {
+                    document.getElementById(`${project.id}-live`).value = project.links.live;
+                    document.getElementById(`${project.id}-github`).value = project.links.github;
+                });
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Mobile Navigation
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Admin Panel Toggle
+            adminToggle.addEventListener('click', () => {
+                if (isLoggedIn) {
+                    adminModal.style.display = 'flex';
+                } else {
+                    loginModal.style.display = 'flex';
+                }
+            });
+
+            // Close admin modal
+            closeAdmin.addEventListener('click', () => {
+                adminModal.style.display = 'none';
+            });
+
+            adminModal.addEventListener('click', (e) => {
+                if (e.target === adminModal) {
+                    adminModal.style.display = 'none';
+                }
+            });
+
+            // Admin Tabs
+            adminTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    adminTabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.tab + 'Tab').classList.add('active');
+                });
+            });
+
+            // Theme Switching
+            themeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const theme = option.dataset.theme;
+                    document.body.className = '';
+                    if (theme !== 'default') {
+                        document.body.classList.add('theme-' + theme);
+                    }
+                    localStorage.setItem('portfolioTheme', theme);
+                });
+            });
+
+            // Content Editing
+            saveContentBtn.addEventListener('click', () => {
+                // Get values from form
+                const aboutText = document.getElementById('aboutInput').value;
+                const profileImageUrl = document.getElementById('profileImageInput').value;
+                const phoneNumber = document.getElementById('phoneInput').value;
+                const emailAddress = document.getElementById('emailInput').value;
+                const locationText = document.getElementById('locationInput').value;
+
+                // Update content on the page
+                if (aboutText) document.getElementById('aboutText').textContent = aboutText;
+                if (profileImageUrl) document.getElementById('profileImage').src = profileImageUrl;
+                if (phoneNumber) document.getElementById('phoneNumber').textContent = phoneNumber;
+                if (emailAddress) document.getElementById('emailAddress').textContent = emailAddress;
+                if (locationText) document.getElementById('locationText').textContent = locationText;
+
+                // Save to localStorage
+                const contentData = {
+                    aboutText: aboutText || document.getElementById('aboutText').textContent,
+                    profileImageUrl: profileImageUrl || document.getElementById('profileImage').src,
+                    phoneNumber: phoneNumber || document.getElementById('phoneNumber').textContent,
+                    emailAddress: emailAddress || document.getElementById('emailAddress').textContent,
+                    locationText: locationText || document.getElementById('locationText').textContent
+                };
+                
+                localStorage.setItem('portfolioContent', JSON.stringify(contentData));
+                
+                // Close the modal
+                adminModal.style.display = 'none';
+                
+                alert('Content updated successfully!');
+            });
+
+            // Social Links Editing
+            saveSocialBtn.addEventListener('click', () => {
+                const linkedinUrl = document.getElementById('linkedinInput').value;
+                const githubUrl = document.getElementById('githubInput').value;
+                const instagramUrl = document.getElementById('instagramInput').value;
+
+                if (linkedinUrl) document.getElementById('linkedinLink').href = linkedinUrl;
+                if (githubUrl) document.getElementById('githubLink').href = githubUrl;
+                if (instagramUrl) document.getElementById('instagramLink').href = instagramUrl;
+
+                const socialData = {
+                    linkedin: linkedinUrl || document.getElementById('linkedinLink').href,
+                    github: githubUrl || document.getElementById('githubLink').href,
+                    instagram: instagramUrl || document.getElementById('instagramLink').href
+                };
+
+                localStorage.setItem('portfolioSocial', JSON.stringify(socialData));
+                alert('Social links updated successfully!');
+            });
+
+            // Project Links Editing
+            saveProjectsBtn.addEventListener('click', () => {
+                const projectsData = {};
+                
+                // Get values for each project
+                projects.forEach(project => {
+                    const liveUrl = document.getElementById(`${project.id}-live`).value;
+                    const githubUrl = document.getElementById(`${project.id}-github`).value;
+                    
+                    projectsData[project.id] = {
+                        live: liveUrl,
+                        github: githubUrl
+                    };
+                    
+                    // Update the project data
+                    project.links.live = liveUrl;
+                    project.links.github = githubUrl;
+                });
+                
+                // Save to localStorage
+                localStorage.setItem('portfolioProjects', JSON.stringify(projectsData));
+                
+                // Re-render projects with updated links
+                renderProjects();
+                
+                alert('Project links updated successfully!');
+            });
+
+            // Login functionality
+            loginBtn.addEventListener('click', () => {
+                const password = adminPassword.value;
+                if (password === ADMIN_PASSWORD) {
+                    isLoggedIn = true;
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    loginModal.style.display = 'none';
+                    loginError.style.display = 'none';
+                    adminPassword.value = '';
+                    adminModal.style.display = 'flex';
+                } else {
+                    loginError.style.display = 'block';
+                }
+            });
+
+            // Close login modal when clicking outside
+            loginModal.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                    loginError.style.display = 'none';
+                    adminPassword.value = '';
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        // Close mobile menu if open
+                        navLinks.classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>
